@@ -1,0 +1,51 @@
+﻿@page "/proposals/{ProposalId}"
+@attribute [Authorize]
+@inject ProposalClient ProposalClient
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Project details</h1>
+        </div>
+    </div>
+    @if (IsLoading)
+    {
+        <div class="row">
+            <div class="col">
+                <LoadingIndicator/>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column">
+                    <li class="nav-item"><a href="/proposals/1" class="nav-link active">Proposal details</a></li>
+                    <li class="nav-item"><a href="/proposals/1/roles" class="nav-link">Project roles</a></li>
+                </div>
+            </div>
+            <div class="col-9">
+                <EditForm Model="@Input" OnSubmit="@UpdateProjectDetails">
+                    <div class="mb-3">
+                        <label>Client name</label>
+                        <InputText class="form-control" @bind-Value="Input.ClientName" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Project name</label>
+                        <div class="input-group">
+                            <InputText class="form-control" @bind-Value="Input.ProjectName" />
+                            <button class="btn btn-outline-secondary" @onclick="GenerateProjectName">Generate</button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <InputTextArea class="form-control" rows="15" @bind-Value="Input.Description" />
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary" @onclick="SaveChanges">Save</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,5 @@
+Generate a name for the project for the client {{$clientName}} based on the following description.
+
+{{$description}}
+
+Name:

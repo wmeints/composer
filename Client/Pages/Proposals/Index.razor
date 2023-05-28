@@ -1,0 +1,73 @@
+﻿@page "/proposals"
+@attribute [Authorize]
+@inject ProposalClient ProposalClient
+@inject NavigationManager Navigation
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Proposals</h1>
+        </div>
+    </div>
+    @if (IsLoading)
+    {
+        <div class="row">
+            <div class="col">
+                <LoadingIndicator />
+            </div>
+        </div>
+    }
+    else
+    {
+        if (TotalPages > 0)
+        {
+            <div class="row">
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>&nbsp;</th>
+                                <th>Client name</th>
+                                <th>Project name</th>
+                                <th>Created</th>
+                                <th>Modified</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var proposal in Proposals)
+                            {
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-outline-secondary" @onclick="() => EditProposal(proposal.Id)"><i class="fa-regular fa-pen-to-square"></i></button>
+                                    </td>
+                                    <td>@proposal.ClientName</td>
+                                    <td>@proposal.ProjectName</td>
+                                    <td>@proposal.CreatedAt</td>
+                                    <td>@proposal.ModifiedAt</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <ul class="pagination">
+                        @for (var index = 0; index < TotalPages; index++)
+                        {
+                            var pageNumber = index + 1;
+                            <li class="page-item">
+                                <a class="page-link" @onclick="() => SelectPage(index)" href="#">@pageNumber</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col">(No proposals yet, <a href="/conversations/new">why not start one?</a></div>
+            </div>
+        }
+    }
+</div>

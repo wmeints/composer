@@ -1,3 +1,79 @@
-﻿@page "/"
+﻿@inject ProposalClient ProposalClient
+@inject NavigationManager NavigationManager
+@page "/"
 
 <PageTitle>Home</PageTitle>
+
+<div class="container mt-4">
+    <AuthorizeView>
+        <NotAuthorized>
+            <div class="row">
+                <div class="col-8">
+                    <h1>Composer</h1>
+                    <p class="lead">
+                        Writing a project proposal is a time consuming task. Composer helps you to write proposals faster and
+                        more efficiently. Try it out!
+                    </p>
+                </div>
+                <div class="col-4">
+                    <div class="border rounded-3 p-3 bg-light">
+                        <h2>Sign in</h2>
+                        <p>Please sign in to start a new proposal.</p>
+                        <button class="btn btn-primary" type="button" @onclick="RedirecTtoSignIn">Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </NotAuthorized>
+        <Authorized>
+
+            @if (ErrorMessage != null)
+            {
+                <div class="row">
+                    <div class="col">
+                        <div class="alert alert-danger">
+                            @ErrorMessage
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-8">
+                    <h1>Composer</h1>
+                    <p class="lead">
+                        Writing a project proposal is a time consuming task. Composer helps you to write proposals faster and
+                        more efficiently. Try it out!
+                    </p>
+                </div>
+                <div class="col-4">
+                    <div class="border rounded-3 p-3 bg-light">
+
+                        <h2>Start a new proposal</h2>
+                        <p>Please enter the client information to start a new proposal.</p>
+                        <EditForm Model="@Input" OnSubmit="@StartProposal" Context="formContext">
+                            <div class="mb-3">
+                                <label>Client name.</label>
+                                <InputText class="form-control" @bind-Value="Input.ClientName" />
+                            </div>
+                            <div class="mb-3">
+                                <label>Description.</label>
+                                <InputTextArea class="form-control" @bind-Value="Input.Description" />
+                            </div>
+                            <div class="mb-3">
+                                @if (IsLoading)
+                                {
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-primary" type="submit">Start proposal</button>
+                                }
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+</div>

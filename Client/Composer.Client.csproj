@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Shared\Composer.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\webfonts\" />
+  </ItemGroup>
+
 </Project>

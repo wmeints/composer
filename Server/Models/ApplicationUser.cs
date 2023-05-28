@@ -4,4 +4,5 @@ namespace Composer.Server.Models;
 
 public class ApplicationUser : IdentityUser
 {
+    
 }

@@ -12,5 +12,15 @@ public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
         DbContextOptions options,
         IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
     {
+
+    }
+
+    public DbSet<Proposal> Proposals => Set<Proposal>();
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity<Proposal>().Property<byte[]>("RowVersion").IsRowVersion();
     }
 }
