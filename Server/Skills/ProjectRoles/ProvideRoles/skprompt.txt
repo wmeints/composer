@@ -1,0 +1,17 @@
+Generate a list of 5 relevant IT roles based on the provided description. Exclude roles not related to building software. The list of roles must include a data scientist and a developer. Don't include the items on the excluded roles list. Include a description with each of the roles in the list.
+
+Description:
+
+{{$INPUT}}
+
+Excluded roles:
+
+* Project manager
+* Security engineer
+* Database administrator
+* Quality assurance engineer
+* Technical Writer
+* Test engineer
+* UI/UX Designer
+
+Roles:

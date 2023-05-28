@@ -3,27 +3,25 @@
 @inject ProposalClient ProposalClient
 <div class="container">
     <div class="row">
-        <div class="col">
-            <h1>Project details</h1>
+        <div class="col offset-lg-3">
+            <h1>Proposal details</h1>
         </div>
     </div>
-    @if (IsLoading)
-    {
-        <div class="row">
-            <div class="col">
-                <LoadingIndicator/>
-            </div>
+    <div class="row">
+        <div class="col-3">
+            <ProposalNavigation ProposalId="@ProposalId"/>
         </div>
-    }
-    else
-    {
-        <div class="row">
-            <div class="col-3">
-                <div class="nav flex-column">
-                    <li class="nav-item"><a href="/proposals/1" class="nav-link active">Proposal details</a></li>
-                    <li class="nav-item"><a href="/proposals/1/roles" class="nav-link">Project roles</a></li>
+        @if (IsLoading)
+        {
+            <div class="row">
+                <div class="col">
+                    <LoadingIndicator />
                 </div>
             </div>
+        }
+        else
+        {
+
             <div class="col-9">
                 <EditForm Model="@Input" OnSubmit="@UpdateProjectDetails">
                     <div class="mb-3">
@@ -46,6 +44,6 @@
                     </div>
                 </EditForm>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>

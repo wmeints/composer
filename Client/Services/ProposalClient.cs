@@ -59,4 +59,20 @@ public class ProposalClient
         var response = await _httpClient.PutAsJsonAsync($"/api/proposals/{proposalId}", request);
         response.EnsureSuccessStatusCode();
     }
+
+    public async Task<List<RoleDescription>> GenerateRolesAsync(long proposalId)
+    {
+        var response = await _httpClient.PostAsync($"/api/proposals/{proposalId}/roles", null);
+        var roles = await response.Content.ReadFromJsonAsync<List<RoleDescription>>();
+
+        return roles;
+    }
+
+    public async Task<List<RoleDescription>> GetRolesAsync(long proposalId)
+    {
+        var response = await _httpClient.GetAsync($"/api/proposals/{proposalId}/roles");
+        var roles = await response.Content.ReadFromJsonAsync<List<RoleDescription>>();
+
+        return roles;
+    }
 }

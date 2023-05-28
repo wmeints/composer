@@ -1,0 +1,14 @@
+﻿<ul class="nav nav-pills nav-fill flex-column">
+    <li class="nav-item"><NavLink ActiveClass="active" Match="NavLinkMatch.All" href="@GenerateDetailsLink("")" class="nav-link">Proposal details</NavLink></li>
+    <li class="nav-item"><NavLink ActiveClass="active" Match="NavLinkMatch.All" href="@GenerateDetailsLink("documents")" class="nav-link">Background information</NavLink></li>
+    <li class="nav-item"><NavLink ActiveClass="active" Match="NavLinkMatch.All" href="@GenerateDetailsLink("roles")" class="nav-link">Project roles</NavLink></li>
+</ul>
+@code {
+    [Parameter]
+    public string? ProposalId { get; set; }
+
+    private string GenerateDetailsLink(string part)
+    {
+        return $"/proposals/{ProposalId}/{part}";
+    }
+}

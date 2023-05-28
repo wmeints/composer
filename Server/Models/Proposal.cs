@@ -1,4 +1,6 @@
-﻿namespace Composer.Server.Models;
+﻿using Composer.Shared;
+
+namespace Composer.Server.Models;
 
 public class Proposal
 {
@@ -7,6 +9,7 @@ public class Proposal
     public ApplicationUser Author { get; set; } = null!;
     public string Description { get; set; } = null!;
     public string ProjectName { get; set; } = null!;
+    public List<RoleDescription> Roles { get; set; } = new();
     public DateTime CreatedAt { get; set; }
     public DateTime? ModifiedAt { get; set; }
 }

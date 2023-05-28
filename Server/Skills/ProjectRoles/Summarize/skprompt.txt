@@ -1,0 +1,5 @@
+Summarize the provided project description into a single sentence.
+
+{{$INPUT}}
+
+Summary:

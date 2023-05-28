@@ -134,4 +134,41 @@ public class ProposalsController : ControllerBase
             ProjectName = projectName
         });
     }
+
+    [HttpPost("{proposalId}/roles")]
+    public async Task<IActionResult> GenerateRoles(long proposalId)
+    {
+        var proposal = await _applicationDbContext.Proposals
+            .Where(x => x.Author.Id == _userManager.GetUserId(User))
+            .FirstOrDefaultAsync(x => x.Id == proposalId);
+
+        if (proposal == null)
+        {
+            return NotFound();
+        }
+
+        var roleDescriptions = await _languageService.GetRoleDescriptionsAsync(proposal.Description);
+
+        proposal.Roles = roleDescriptions;
+
+        await _applicationDbContext.SaveChangesAsync();
+
+        return Ok(roleDescriptions);
+    }
+
+    [HttpGet("{proposalId}/roles")]
+    public async Task<IActionResult> GetRoles(long proposalId)
+    {
+        var proposal = await _applicationDbContext.Proposals
+            .Include(x => x.Roles)
+            .Where(x => x.Author.Id == _userManager.GetUserId(User))
+            .FirstOrDefaultAsync(x => x.Id == proposalId);
+
+        if (proposal == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(proposal.Roles);
+    }
 }

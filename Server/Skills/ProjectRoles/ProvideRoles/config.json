@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "type": "completion",
+  "description": "Provides roles for the project based on it's summarized description.",
+  "completion": {
+    "max_tokens": 150,
+    "temperature": 0.1,
+    "top_p": 0.5,
+    "presence_penalty": 0.6,
+    "frequency_penalty": 0.0
+  }
+}
