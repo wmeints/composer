@@ -1,0 +1,3 @@
+name: Composer.Infrastructure
+runtime: dotnet
+description: Deploys the infrastructure for the Composer project
