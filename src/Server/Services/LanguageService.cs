@@ -23,7 +23,10 @@ public class LanguageService : ILanguageService
     {
         var kernel = Kernel.Builder.Build();
 
-        kernel.Config.AddOpenAITextCompletionService(_languageServiceOptions.ModelName, _languageServiceOptions.ApiKey);
+        kernel.Config.AddAzureTextCompletionService(
+            _languageServiceOptions.ModelName, 
+            _languageServiceOptions.Endpoint, 
+            _languageServiceOptions.ApiKey);
 
         var skills = kernel.ImportSemanticSkillFromDirectory("Skills", "ProjectName");
 
