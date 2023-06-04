@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 
 namespace Composer.Server.Controllers;
 
@@ -73,6 +72,12 @@ public class ProposalsController : ControllerBase
     public async Task<IActionResult> StartProposal([FromBody] StartProposalRequest request)
     {
         var user = await _userManager.GetUserAsync(User);
+
+        if(user == null)
+        {
+            return Unauthorized();
+        }
+
         var projectName = await _languageService.GetProjectNameAsync(request.Description, request.ClientName);
 
         var proposal = new Proposal

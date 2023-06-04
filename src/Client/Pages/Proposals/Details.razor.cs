@@ -11,7 +11,8 @@ public partial class Details
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await ProposalClient.GetProposalAsync(long.Parse(ProposalId ?? "0"));
+        var response = await ProposalClient.GetProposalAsync(
+            long.Parse(ProposalId ?? "0"));
 
         if (response == null)
         {
@@ -27,28 +28,42 @@ public partial class Details
 
     public async Task UpdateProjectDetails()
     {
+        var request = new UpdateProposalRequest 
+        {
+            ClientName = Input.ClientName,
+            Description = Input.Description,
+            ProjectName = Input.ProjectName
+        };
 
+        await ProposalClient.UpdateProposalAsync(
+            long.Parse(ProposalId ?? "0"), request);
     }
 
     public async Task GenerateProjectName()
     {
-        var result = await ProposalClient.GenerateProjectNameAsync(long.Parse(ProposalId ?? "0"), new Composer.Shared.GenerateProjectNameRequest
+        var request = new GenerateProjectNameRequest
         {
             ClientName = Input.ClientName,
             Description = Input.Description
-        });
+        };
+
+        var result = await ProposalClient.GenerateProjectNameAsync(
+            long.Parse(ProposalId ?? "0"), request);
 
         Input.ProjectName = result.ProjectName;
     }
 
     public async Task SaveChanges()
     {
-        await ProposalClient.UpdateProposalAsync(Int64.Parse(ProposalId ?? "0"), new Composer.Shared.UpdateProposalRequest
+        var request = new UpdateProposalRequest
         {
             ClientName = Input.ClientName,
             Description = Input.Description,
             ProjectName = Input.ProjectName
-        });
+        };
+
+        await ProposalClient.UpdateProposalAsync(
+            Int64.Parse(ProposalId ?? "0"), request);
     }
 
     public class InputModel

@@ -33,16 +33,6 @@ public partial class Index
         IsLoading = false;
     }
 
-    public async Task DeleteProposal(long proposalId)
-    {
-        //var response = await ProposalClient.DeleteProposalAsync(proposalId);
-
-        //if (response)
-        //{
-        //    Proposals = Proposals.Where(x => x.Id != proposalId);
-        //}
-    }
-
     public void EditProposal(long proposalId)
     {
         Navigation.NavigateTo($"/proposals/{proposalId}");
