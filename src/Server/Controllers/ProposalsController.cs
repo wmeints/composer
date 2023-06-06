@@ -56,8 +56,11 @@ public class ProposalsController : ControllerBase
     [HttpGet("{proposalId}")]
     public async Task<IActionResult> GetProposal(long proposalId)
     {
+        var userId = _userManager.GetUserId(User);
+
         var proposal = await _applicationDbContext.Proposals
-            .Where(x => x.Author.Id == _userManager.GetUserId(User))
+            .Include(x => x.Roles)
+            .Where(x => x.Author.Id == userId)
             .FirstOrDefaultAsync(x => x.Id == proposalId);
 
         if (proposal == null)
@@ -72,12 +75,6 @@ public class ProposalsController : ControllerBase
     public async Task<IActionResult> StartProposal([FromBody] StartProposalRequest request)
     {
         var user = await _userManager.GetUserAsync(User);
-
-        if(user == null)
-        {
-            return Unauthorized();
-        }
-
         var projectName = await _languageService.GetProjectNameAsync(request.Description, request.ClientName);
 
         var proposal = new Proposal
@@ -86,7 +83,7 @@ public class ProposalsController : ControllerBase
             Description = request.Description,
             CreatedAt = DateTime.UtcNow,
             ProjectName = projectName,
-            Author = user
+            Author = user!
         };
 
         _applicationDbContext.Proposals.Add(proposal);

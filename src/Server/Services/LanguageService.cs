@@ -11,16 +11,20 @@ namespace Composer.Server.Services;
 public class LanguageService : ILanguageService
 {
     private readonly LanguageServiceOptions _languageServiceOptions;
+    private readonly ILogger<LanguageService> _logger;
 
     private static Regex RoleAndDescriptionPattern = new Regex("^(\\d+). (?<role>.+): (?<description>.+)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-    public LanguageService(IOptions<LanguageServiceOptions> options)
+    public LanguageService(IOptions<LanguageServiceOptions> options, ILogger<LanguageService> logger)
     {
         _languageServiceOptions = options.Value;
+        _logger = logger;
     }
 
     public async Task<string> GetProjectNameAsync(string projectDescription, string clientName)
     {
+        using var _ = Activities.GetProjectName();
+
         var kernel = Kernel.Builder.Build();
 
         kernel.Config.AddAzureTextCompletionService(
@@ -43,6 +47,8 @@ public class LanguageService : ILanguageService
 
     public async Task<List<RoleDescription>> GetRoleDescriptionsAsync(string projectDescription)
     {
+        using var _ = Activities.GetProjectRoles();
+
         var kernel = Kernel.Builder.Build();
 
         kernel.Config.AddOpenAITextCompletionService(
