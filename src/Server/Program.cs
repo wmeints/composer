@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Composer.Server.Data;
 using Composer.Server.Models;
 using Composer.Server.Services;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +19,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services
-    .AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddDefaultIdentity<ApplicationUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier;
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services
     .AddIdentityServer()
@@ -55,6 +63,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// HACK: This is necessary to prevent the JWT handler from mapping claim types to .NET types
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
 
